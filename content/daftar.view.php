@@ -211,7 +211,7 @@ include 'component/footer.view.php';
             return prefix == undefined ? rupiah : (rupiah ? 'Rp. ' + rupiah : '');
         }
 
-        function fetchData(page = 1, itemsPerPage = 5, spm = '', jenis = '') {
+        function fetchData(page = 1, itemsPerPage = 5, spm = '', jenis = '', status= '') {
             $.ajax({
                 url: "proses/sp2d/listsp2d.php?action=fetchData",
                 type: "POST",
@@ -220,8 +220,9 @@ include 'component/footer.view.php';
                     page: page,
                     itemsPerPage: itemsPerPage,
                     spm: spm,
-                    jenis: jenis
-                },
+                    jenis: jenis,
+                    status:status
+                }, 
                 success: function(response) {
                     var tbody = $('#mytable #tes');
                     tbody.empty();
@@ -289,7 +290,8 @@ include 'component/footer.view.php';
             e.preventDefault();
             var keyword = $('#sp2d').val();
             var jenis = $('#jenis').val();
-            fetchData(1, 5, keyword, jenis);
+            var status = $('#status_berkas').val();
+            fetchData(1, 5, keyword, jenis, status);
         });
 
         function renderPagination(page, totalPages) {
@@ -334,7 +336,8 @@ include 'component/footer.view.php';
                 if (!selectedPage || $(this).hasClass('disabled')) return;
                 const keyword = $('#sp2d').val();
                 const jenis = $('#jenis').val();
-                fetchData(selectedPage, itemsPerPage, spm, jenis);
+                const status = $('#status_berkas').val();
+                fetchData(selectedPage, itemsPerPage, spm, jenis, status);
             });
         }
 

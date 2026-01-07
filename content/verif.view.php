@@ -117,13 +117,13 @@ include 'component/footer.view.php';
                         <thead>
                             <tr>
                                 <th scope="col">No SPM</th>
-                                <th scope="col">Dokumen</th>
-                                <th scope="col">Keterangan</th>
+                                <th scope="col">Jenis</th>
+                                <th scope="col">Ket</th>
                                 <th scope="col">Nilai</th>
-                                <th scope="col">Potongan</th>
+                                <!-- <th scope="col">Potongan</th> -->
                                 <th scope="col">Input Sumber Dana</th>
                                 <th scope="col">Views</th>
-                                <th scope="col">Status</th>
+                                <th scope="col">Status Verifikasi</th>
 
                             </tr>
                         </thead>
@@ -350,7 +350,7 @@ include 'component/footer.view.php';
 
 
                             var selectHtml = `
-                                                <select class="form-select mySelect">
+                                                <select class="form-select">
                                                     <option value="">--Pilih--</option>
                                                     <option value="A">OK</option>
                                                     <option value="B">Tolak</option>
@@ -364,8 +364,9 @@ include 'component/footer.view.php';
                                     value.nomor_spm,
                                     value.jenis,
                                     value.keterangan_spm,
-                                    formatRupiah(value.nilai_spm),
-                                    formatRupiah(value.potongan),
+                                    'Nilai SPM:<p>'+ formatRupiah(value.nilai_spm) +'</p><br>Nilai Potongan :<p>'+ formatRupiah(value.potongan) +'</p>',
+                                    //  + formatRupiah(value.potongan),
+                                    // formatRupiah(value.potongan),
                                     // '<select class="form-select pilih-sumber" data-id="' + value.id_sipd + '">' +
                                     // opsiSumberDana.replace('value="' + value.id_dana + '"', 'value="' + value.namasumberdana + '" selected') +
                                     // '</select>',

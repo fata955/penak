@@ -9,6 +9,7 @@ if ($_GET["action"] === "fetchData") {
   $itemsPerPage = isset($_POST['itemsPerPage']) ? intval($_POST['itemsPerPage']) : 5;
   $search = isset($_POST['spm']) ? trim($_POST['spm']) : '';
   $jenis = isset($_POST['jenis']) ? trim($_POST['jenis']) : '';
+  $status = isset($_POST['status']) ? trim($_POST['status']) : '';
   $offset = ($page - 1) * $itemsPerPage;
 
   $where = "a.id_spm=b.id_spm AND status_berkas>0 AND c.id_sp2d=b.id_spm";
@@ -19,6 +20,10 @@ if ($_GET["action"] === "fetchData") {
    if (!empty($jenis)) {
     $jenis = mysqli_real_escape_string($koneksi, $jenis);
     $where .= " AND (a.jenis LIKE '%$jenis%')";
+  }
+   if (!empty($status)) {
+    $jenis = mysqli_real_escape_string($koneksi, $jenis);
+    $where .= " AND (b.status_berkas LIKE '%$status%')";
   }
 
   $countSql = "SELECT COUNT(*) as total FROM tspm a, tspmsub b, tb_control c WHERE $where";

@@ -22,9 +22,10 @@ if ($_GET["action"] === "fetchData") {
 if ($_GET["action"] === "insertData") {
     if (!empty($_POST["dataspmdetail"])) {
         $dataspmdetail = $_POST["dataspmdetail"];
-        $idspm = $_POST["idspm"];
+        // $idspm = $_POST["idspm"];
         $dt = json_decode($dataspmdetail, true);
         $idl = $dt['jenis'];
+        $nomorspm = $dt["ls"]["header"]["nomor_spm"];
 
         // mengambil nilai id opd/skpd di database
         if ($idl == "LS") {
@@ -39,14 +40,14 @@ if ($_GET["action"] === "insertData") {
             $idskpd = mysqli_query($koneksi, "SELECT id_sipd FROM skpd where nama_opd='$nama_skpd'") or die(mysqli_error($koneksi));
             $idskpd = mysqli_fetch_array($idskpd);
             $id_skpdgu = $idskpd['id_sipd'];
-        } elseif ($idl == "UP"){
-
+        } elseif ($idl == "UP") {
         }
 
 
 
+
         // mengecek apakah ada yang sama didalam database menghindar double data
-        $data = mysqli_query($koneksi, "SELECT * FROM tspm where id_spm=$idspm") or die(mysqli_error($koneksi));
+        $data = mysqli_query($koneksi, "SELECT * FROM tspm where nomor_spm='$nomorspm'") or die(mysqli_error($koneksi));
         $hal = mysqli_num_rows($data);
 
         if ($hal != null) {
@@ -86,18 +87,21 @@ if ($_GET["action"] === "insertData") {
                 $namapenerima = str_replace("'", "", $nama_pihak_ketiga);
                 $namarekening = str_replace("'", "",  $nama_rek_pihak_ketiga);
                 $nama_pa_kpa = str_replace("'", "",  $nama_pa_kpa);
+                $idnomor = substr($nomorspm, 11, 6);
+                $gabung = ($idnomor) . ($id_skpd);
 
+                // echo $idnomor;
                 $insertspm = "INSERT INTO tspm 
                         (id_spm,nomor_spm,tanggal_spm,id_skpd,keterangan_spm,nilai_spm,no_rek_pihak_ketiga,nama_rek_pihak_ketiga,bank_pihak_ketiga,
                         npwp_pihak_ketiga,nama_pa_kpa,nip_pa_kpa,jabatan_pa_kpa,nomor_spp,tanggal_spp,jenis,nama_bp_bpp,nip_bp_bpp,jabatan_bp_bpp )
                         Values(
-                                '$idspm','$nomor_spm','$tanggal_spm','$id_skpd','$keteranganspm','$nilai_spm','$no_rek_pihak_ketiga','$namarekening',
+                                '$gabung','$nomor_spm','$tanggal_spm','$id_skpd','$keteranganspm','$nilai_spm','$no_rek_pihak_ketiga','$namarekening',
                                 '$bank_pihak_ketiga','$npwp_pihak_ketiga','$nama_pa_kpa','$nip_pa_kpa','$jabatan_pa_kpa','$nomor_spp','$tanggal_spp',
                                 '$idl','0','0','0'
                             )";
                 $insertsubspm = "INSERT INTO tspmsub (id_spm,status,id_sumber,id_user,id_dana,statuspenguji)
                         VALUES (
-                        '$idspm','0','0','0','0','1')";
+                        '$gabung','0','0','0','0','1')";
 
                 $spm = mysqli_query($koneksi, $insertspm) or die(mysqli_error($koneksi));
                 $subspm = mysqli_query($koneksi, $insertsubspm) or die(mysqli_error($koneksi));
@@ -108,7 +112,7 @@ if ($_GET["action"] === "insertData") {
                 '" . $row["kode_rekening"] . "',
                 '" . $row["uraian"] . "',
                 '" . $row["jumlah"] . "',
-                '$idspm'
+                '$gabung'
                 )";
                     $belanja = mysqli_query($koneksi, $insertbelanja) or die(mysqli_error($koneksi));
                 }
@@ -121,7 +125,7 @@ if ($_GET["action"] === "insertData") {
                         VALUES (
                                     '" . $row1["nama_pajak_potongan"] . "',
                                     '" . $row1["nilai_spp_pajak_potongan"] . "',
-                                    '$idspm',
+                                    '$gabung',
                                     '$billing'
                                 )";
                         $billing = str_replace("'", "", $row1["id_billing"]);
@@ -136,7 +140,7 @@ if ($_GET["action"] === "insertData") {
                             '" . $dasarpembayaran["nomor_spd"] . "',
                             '" . $dasarpembayaran["tanggal_spd"] . "',
                             '" . $dasarpembayaran["total_spd"] . "',
-                            '$idspm'
+                            '$gabung'
                         )";
 
                     $spd = mysqli_query($koneksi, $insertspd) or die(mysqli_error($koneksi));
@@ -173,16 +177,19 @@ if ($_GET["action"] === "insertData") {
 
                 $keteranganspm = str_replace("'", "", $keterangan_spm);
                 $namarekening = str_replace("'", "",  $nama_rek_pihak_ketiga);
+
+                $idnomor = substr($nomorspm, 11, 6);
+                $gabungGU = ($idnomor) . ($id_skpdgu);
                 $insertspm = "INSERT INTO tspm (id_spm,nomor_spm,tanggal_spm,id_skpd,keterangan_spm,nilai_spm,no_rek_pihak_ketiga,nama_rek_pihak_ketiga,
                     bank_pihak_ketiga,npwp_pihak_ketiga,nama_pa_kpa,nip_pa_kpa,jabatan_pa_kpa,nomor_spp,tanggal_spp,jenis,nama_bp_bpp,nip_bp_bpp,jabatan_bp_bpp )
                     Values(
-                            '$idspm','$nomor_spm','$tanggal_spm','$id_skpdgu','$keteranganspm','$nilai_spm','$no_rek_pihak_ketiga','$namarekening','$bank_pihak_ketiga',
+                            '$gabungGU','$nomor_spm','$tanggal_spm','$id_skpdgu','$keteranganspm','$nilai_spm','$no_rek_pihak_ketiga','$namarekening','$bank_pihak_ketiga',
                             '$npwp_pihak_ketiga','$nama_pa_kpa','$nip_pa_kpa','$jabatan_pa_kpa','$nomor_spp','$tanggal_spp','$idl','$nama_bp_bpp',
                             '$nip_bp_bpp','$jabatan_bp_bpp'
                         )";
                 $insertsubspm = "INSERT INTO tspmsub (id_spm,status,id_sumber,id_user,id_dana,statuspenguji)
                         VALUES (
-                        '$idspm','0','0','0','0','1')";
+                        '$gabungGU','0','0','0','0','1')";
 
 
                 $insertspm = mysqli_query($koneksi, $insertspm) or die(mysqli_error($koneksi));
@@ -193,7 +200,7 @@ if ($_GET["action"] === "insertData") {
                         '" . $row["kode_rekening"] . "',
                         '" . $row["uraian"] . "',
                         '" . $row["nilai"] . "',
-                        '$idspm')";
+                        '$gabungGU')";
                     $belanja = mysqli_query($koneksi, $insertbelanja) or die(mysqli_error($koneksi));
                 }
 
@@ -203,7 +210,6 @@ if ($_GET["action"] === "insertData") {
                     "message" => "Data inserted successfully 😀"
                 ]);
             } elseif ($idl == "UP") {
-                
             } elseif ($idl == "TU") {
             }
         }

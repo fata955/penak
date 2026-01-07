@@ -52,12 +52,6 @@ include 'component/pengaturantampilan.view.php';
                 <form method="POST" id="insertForm">
                     <div class="row clearfix">
                         <div class="col-lg-12">
-                            <input class="form-control" id="idspm" name="idspm" placeholder="Masukkan id spm"></input>
-                        </div>
-                    </div>
-                    <br>
-                    <div class="row clearfix">
-                        <div class="col-lg-12">
                             <textarea class="form-control" id="dataspmdetail" name="dataspmdetail" placeholder="Masukkan Json" rows="20"></textarea>
                         </div>
                     </div>
@@ -66,7 +60,7 @@ include 'component/pengaturantampilan.view.php';
                         <div class="col-lg-12 d-flex justify-content-center">
                             <button class="btn btn-primary" type="submit" id='insertBtn'>Tarik Data SPM</button>
                         </div>
-                    </div>
+                    </div><br>
                 </form>
                 <div class="row clearfix">
                     <div class="col-lg-12">
@@ -220,6 +214,11 @@ include 'component/pengaturantampilan.view.php';
                 ]
             });
 
+            function kosong(){
+                $("#idspm").val('');
+                $("#dataspmdetail").val('');
+            }
+
             // function to fetch data from database
             function fetchData() {
                 $.ajax({
@@ -264,20 +263,22 @@ include 'component/pengaturantampilan.view.php';
                     processData: false,
                     success: function(response) {
                         var response = JSON.parse(response.statusCode);
-
                         if (response == 200) {
                             // Swal.fire("!", "Data Sukses Terupdate", "success");
                             alert("Data Sukses Terinput");
+                            kosong();
 
                             // window('')
                             // Swal.fire("!", "Data Sukses Tersimpan", "success");
                             fetchData();
                         } else if (response == 500) {
-                            alert("Data Tidak Tersimpan");
+                            alert("Data Sudah Ada !");
                             fetchData();
+                            kosong();
                         } else if (response == 400) {
                             alert("Data Gagal Tersimpan");
                             fetchData();
+                            kosong();
                         }
                     }
                 });

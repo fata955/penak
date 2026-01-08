@@ -65,39 +65,6 @@ include 'component/pengaturantampilan.view.php';
 <?php
 include 'component/footer.view.php';
 ?>
-
-<div class="modal fade" id="modaldemo8insert" tabindex="-1"
-    aria-labelledby="exampleModalXlLabel" style="display: none;" aria-hidden="true">
-    <div class="modal-dialog modal-xl">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h6 class="modal-title" id="exampleModalXlLabel">Upload Berkas</h6>
-                <!-- <button class="btn btn-outline-warning ms-auto float-center tampilkan"
-                    data-bs-placement="top" data-bs-toggle="tooltip" value="` + value.id_sipd + `" title="View Task">Laporan SPM</button>
-                <button class="btn btn-outline-secondary ms-auto float-center tampilkan"
-                    data-bs-placement="top" data-bs-toggle="tooltip" value="` + value.id_sipd + `" title="View Task">SPM Masuk</button> -->
-                <button type="button" class="btn-close" data-bs-dismiss="modal"
-                    aria-label="Close"></button>
-            </div>
-            <div class="modal-body">
-                <form id="uploadForm" enctype="multipart/form-data">
-                    <input type="hidden" name="idspmhidden" id="idspmhidden" value="">
-
-                    <input type="file" id="pdfFile" name="pdfFile" accept="application/pdf">
-                    <button type="button" id="uploadBtn" class="btn btn-primary">Upload PDF</button>
-                </form>
-
-                <div class="progress mt-3" style="height: 25px;">
-                    <div id="progressBar" class="progress-bar progress-bar-striped progress-bar-animated"
-                        role="progressbar" style="width: 0%">0%</div>
-                </div>
-
-                <div id="status" class="mt-2"></div>
-            </div>
-        </div>
-    </div>
-</div>
-
 <div class="modal fade" id="exampleModalXl" tabindex="-1"
     aria-labelledby="exampleModalXlLabel" style="display: none;" aria-hidden="true">
     <div class="modal-dialog modal-xl">
@@ -118,12 +85,11 @@ include 'component/footer.view.php';
                             <tr>
                                 <th scope="col">No SPM</th>
                                 <th scope="col">Jenis</th>
-                                <th scope="col">Ket</th>
+                                <th scope="col">Uraian</th>
                                 <th scope="col">Nilai</th>
-                                <!-- <th scope="col">Potongan</th> -->
                                 <th scope="col">Input Sumber Dana</th>
-                                <th scope="col">Views</th>
-                                <th scope="col">Status Verifikasi</th>
+                                <th scope="col">Inputan Berkas</th>
+                                <th scope="col">Action</th>
 
                             </tr>
                         </thead>
@@ -136,6 +102,46 @@ include 'component/footer.view.php';
         </div>
     </div>
 </div>
+
+<div class="modal fade" id="modaldemo8insert" tabindex="-1"
+    aria-labelledby="exampleModalXlLabel" style="display: none;" aria-hidden="true">
+    <div class="modal-dialog modal-xl">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h6 class="modal-title">Upload Berkas</h6>
+
+                <!-- <button class="btn btn-outline-warning ms-auto float-center tampilkan"
+                    data-bs-placement="top" data-bs-toggle="tooltip" value="` + value.id_sipd + `" title="View Task">Laporan SPM</button>
+                <button class="btn btn-outline-secondary ms-auto float-center tampilkan"
+                    data-bs-placement="top" data-bs-toggle="tooltip" value="` + value.id_sipd + `" title="View Task">SPM Masuk</button> -->
+                <button type="button" class="btn-close" data-bs-dismiss="modal"
+                    aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form id="uploadForm" enctype="multipart/form-data">
+                    <h6>Nomor SPM</h6> <label class="form-control" for="" name="nomorspm" id="nomorspm"></label><br>
+                    <h6>Nama OPD</h6><label class="form-control" for="" name="namaopd" id="namaopd"></label><br>
+                    <h6>Nilai SPM</h6><label class="form-control" for="" name="nilaispm" id="nilaispm"></label>
+                    <br>
+
+                    <input type="hidden" name="idspmhidden" id="idspmhidden" value="">
+
+                    <input type="file" id="pdfFile" name="pdfFile" accept="application/pdf">
+                    <button type="button" id="uploadBtn" class="btn btn-primary">Upload PDF</button>
+                </form>
+
+                <div class="progress mt-3" style="height: 25px;">
+                    <div id="progressBar" class="progress-bar progress-bar-striped progress-bar-animated"
+                        role="progressbar" style="width: 0%">0%</div>
+                </div>
+
+                <div id="status" class="mt-2"></div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
 <!-- End::app-content -->
 
 
@@ -183,7 +189,7 @@ include 'component/footer.view.php';
         function fetchData(data) {
             $("#tablespm").empty();
             $.ajax({
-                url: "proses/berkas/page.php?action=fetchData",
+                url: "proses/berkas/verif.php?action=fetchData",
                 type: "POST",
                 dataType: "json",
                 success: function(response) {
@@ -239,7 +245,7 @@ include 'component/footer.view.php';
             e.preventDefault();
             if (dsearch) {
                 $.ajax({
-                    url: "proses/berkas/page.php?action=searchopd",
+                    url: "proses/berkas/verif.php?action=searchopd",
                     type: "POST",
                     dataType: "json",
                     data: {
@@ -299,7 +305,7 @@ include 'component/footer.view.php';
         });
 
         $.ajax({
-            url: "proses/berkas/page.php?action=sumberdana",
+            url: "proses/berkas/verif.php?action=sumberdana",
             type: "GET",
             dataType: "json",
             async: false, // supaya selesai dulu sebelum dipakai
@@ -312,16 +318,22 @@ include 'component/footer.view.php';
                 });
             }
         });
-        $("#tablespm").on("click", ".tampilkan", function(e) {
-            // if (confirm("Apakah yakin memasukkan dalam Keranjang?")) {
 
+        var selectHtml = `
+        <select class="form-select select-status">
+            <option value="">--Pilih--</option>
+            <option value="A">TERIMA</option>
+            <option value="B">TOLAK</option>
+            
+        </select>
+        `;
+
+        $("#tablespm").on("click", ".tampilkan", function(e) {
             var id = $(this).val();
-            console.log(id);
-            // $("#listspm").empty();
             e.preventDefault();
             if (id) {
                 $.ajax({
-                    url: "proses/berkas/page.php?action=listspm",
+                    url: "proses/berkas/verif.php?action=listspm",
                     type: "POST",
                     data: {
                         id: id
@@ -331,62 +343,51 @@ include 'component/footer.view.php';
                         var data = response.data;
                         console.log(data);
 
-                        // console.log(nilai);
                         table.clear().draw();
 
-                        // var counter = 1;
                         $.each(data, function(index, value) {
                             let selected = "";
                             if (value.id_dana == 0 || value.id_dana == null) {
-                                // pilih default
                                 selected = opsiSumberDana;
                             } else {
-                                // pilih sesuai id_dana
                                 selected = opsiSumberDana.replace(
                                     'value="' + value.id_dana + '"',
                                     'value="' + value.namasumberdana + '" selected'
                                 );
                             }
 
-
-                            var selectHtml = `
-                                                <select class="form-select">
-                                                    <option value="">--Pilih--</option>
-                                                    <option value="A">OK</option>
-                                                    <option value="B">Tolak</option>
-                                                    
-                                                </select>
-                                                `;
-
-                            table.row
-                                .add([
-                                    // counter,
-                                    value.nomor_spm,
-                                    value.jenis,
-                                    value.keterangan_spm,
-                                    'Nilai SPM:<p>'+ formatRupiah(value.nilai_spm) +'</p><br>Nilai Potongan :<p>'+ formatRupiah(value.potongan) +'</p>',
-                                    //  + formatRupiah(value.potongan),
-                                    // formatRupiah(value.potongan),
-                                    // '<select class="form-select pilih-sumber" data-id="' + value.id_sipd + '">' +
-                                    // opsiSumberDana.replace('value="' + value.id_dana + '"', 'value="' + value.namasumberdana + '" selected') +
-                                    // '</select>',
-                                    '<select class="form-select pilih-sumber" data-id="' + value.id_spm + '">' +
-                                    selected +
-                                    '</select>',
-                                    '<button class="btn btn-outline-secondary ms-auto float-center tampilkan" ' +
-                                    ' data-bs-placement="top" data-bs-toggle="tooltip"  value="' + value.id_spm + '" title="View Task">Rincian Belanja</button><br><br>' +
-                                    '<button class="btn btn-outline-warning ms-auto float-center tampilkan2" ' +
-                                    ' data-bs-placement="top" data-bs-toggle="tooltip"  value="' + value.id_spm + '" title="View Task">Potongan</button><br><br>' +
+                            let tombolBerkas = "";
+                            if (value.file_exists) {
+                                // jika file sudah ada → tombol View Berkas
+                                tombolBerkas =
+                                    '<a href="' + value.file_url + '" target="_blank" ' +
+                                    'class="btn btn-outline-success ms-auto float-center tampilkan3" ' +
+                                    'data-id="' + value.id_spm + '" title="View Berkas">View Berkas</a><br><br>';
+                            } else {
+                                // jika file belum ada → tombol Upload Berkas
+                                tombolBerkas =
                                     '<button class="btn btn-outline-danger ms-auto float-center tampilkan3" ' +
-                                    ' data-bs-placement="top" data-bs-toggle="tooltip"  data-id="' + value.id_spm + '" value="' + value.id_spm + '" title="View Task">Lihat Berkas</button>',
-                                     selectHtml
+                                    'nilaispm="' + value.nilai_spm + '" namaopd="' + value.nama_opd + '" ' +
+                                    'nomorspm="' + value.nomor_spm + '" data-id="' + value.id_spm + '" ' +
+                                    'value="' + value.id_spm + '" title="Upload Berkas">Upload Berkas</button><br><br>';
+                            }
 
-
-                                ])
-                                .draw(false);
-
-                            // counter++;
+                            table.row.add([
+                                value.nomor_spm,
+                                value.jenis,
+                                value.keterangan_spm,
+                                'Nilai SPM:<p>' + formatRupiah(value.nilai_spm) + '</p><br>Nilai Potongan :<p>' + formatRupiah(value.potongan) + '</p>',
+                                '<select class="form-select pilih-sumber" data-id="' + value.id_spm + '">' + selected + '</select>',
+                                tombolBerkas +
+                                '<button class="btn btn-outline-secondary ms-auto float-center tampilkan" ' +
+                                ' data-bs-placement="top" data-bs-toggle="tooltip"  value="' + value.id_spm + '" title="View Task">Belanja</button><br><br>' +
+                                '<button class="btn btn-outline-warning ms-auto float-center tampilkan2" ' +
+                                ' data-bs-placement="top" data-bs-toggle="tooltip"  value="' + value.id_spm + '" title="View Task">Potongan</button><br><br>',
+                                selectHtml
+                            ]).draw(false);
                         });
+
+
                         $("#exampleModalXl").modal('show');
                     }
                 });
@@ -405,7 +406,7 @@ include 'component/footer.view.php';
             console.log("Dana:", dana);
 
             $.ajax({
-                url: "proses/berkas/page.php?action=updateSd",
+                url: "proses/berkas/verif.php?action=updateSd",
                 type: "POST",
                 data: {
                     id: id,
@@ -422,17 +423,69 @@ include 'component/footer.view.php';
                 }
             });
         });
-        $(document).on("click", ".tampilkan3", function() {
-            $("#exampleModalXl").modal("hide");
-            $("#modaldemo8insert").modal("show");
-            var id = $(this).data('id');
-            $('#idspmhidden').val(id);
+        $(document).on("click", ".tampilkan3", function(e) {
+            e.preventDefault();
+
+            let fileUrl = $(this).attr("href");
+
+            if (fileUrl) {
+                // View Berkas → buka file PDF di tab baru
+                window.open(fileUrl, "_blank");
+            } else {
+                // Upload Berkas → jalankan modal insert
+                $("#exampleModalXl").modal("hide");
+                $("#modaldemo8insert").modal("show");
+
+                var id = $(this).data('id');
+                var nomorspm = $(this).attr("nomorspm");
+                var nilaispm = $(this).attr("nilaispm");
+                var namaopd = $(this).attr("namaopd");
+
+                $('#idspmhidden').val(id);
+                $('#nomorspm').text(nomorspm);
+                $('#namaopd').text(namaopd);
+                $('#nilaispm').text(nilaispm);
+            }
+        });
+
+        $(document).on("change", ".select-status", function(e) {
+            e.preventDefault();
+            let status = $(this).val();
+            if (status !== "") {
+                $.ajax({
+                    url: "proses/berkas/verif.php?action=updatestatus", // ganti dengan URL backend kamu
+                    type: "POST",
+                    data: {
+                        status: status
+                    },
+                    dataType: "json",
+                    success: function(response) {
+                        var response = JSON.parse(response);
+                        if (response.statusCode == 200) {
+                            alert('Data Sukses tersimpan')
+
+                        } else if (response.statusCode == 500) {
+                            alert('Failed to update data');
+                            kosong();
+                        } else if (response.statusCode == 400) {
+                            alert('list masih kosong');
+                        } else if (response.statusCode == 800) {
+                            alert('Tidak ada Datanya Bro');
+                        }
+                    }
+                });
+            }
 
         });
+
+
+
 
         $("#uploadBtn").on("click", function() {
             const file = $("#pdfFile")[0].files[0];
             let id = $('#idspmhidden').val();
+            let name = $('#nameopd').val();
+            let nomorspm = $('#nomorspm').text();
             // console.log(id);
             if (!file) {
                 alert("Pilih file PDF terlebih dahulu!");
@@ -448,6 +501,7 @@ include 'component/footer.view.php';
                 url: "proses/berkas/resume.php",
                 type: "POST",
                 data: {
+                    nomorspm: nomorspm,
                     fileName: file.name,
                     id: id
                 },
@@ -456,6 +510,8 @@ include 'component/footer.view.php';
                     uploadNextChunk();
                 }
             });
+            fetchData();
+
 
             function uploadNextChunk() {
                 if (currentChunk >= totalChunks) {
@@ -473,6 +529,7 @@ include 'component/footer.view.php';
                 formData.append("index", currentChunk);
                 formData.append("total", totalChunks);
                 formData.append("fileName", file.name);
+                formData.append("nomorspm", nomorspm);
                 formData.append("id", id);
 
                 $.ajax({
@@ -494,7 +551,11 @@ include 'component/footer.view.php';
                         $("#status").html("Terjadi kesalahan pada chunk " + (currentChunk + 1));
                     }
                 });
+
+
             }
+            fetchData();
+            $('#pdfFile').replaceWith($('#pdfFile').clone());
         });
 
     });

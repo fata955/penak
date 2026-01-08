@@ -2,12 +2,9 @@
 
 $servername = "localhost";
 $username = "root";
-$password = "";
+$password = "nadirad3mi208";
 $database = "spm";
-// $servername = "localhost";
-// $username = "root";
-// $password = "nadirad3mi208";
-// $database = "inspektorat";
+
 
 $koneksi = new mysqli($servername, $username, $password,$database);
 

@@ -54,8 +54,8 @@ if ($_GET["action"] === "sumberdana") {
 
 
 if ($_GET["action"] === "listspm") {
-    $id = $_POST["id"];
-    $sql = "
+  $id = $_POST["id"];
+  $sql = "
         SELECT 
             a.id_spm,
             a.nomor_spm,
@@ -76,29 +76,29 @@ if ($_GET["action"] === "listspm") {
         LEFT JOIN tspmsub d ON a.id_spm = d.id_spm
         LEFT JOIN t_sumberdana e ON e.id = d.id_dana
         LEFT JOIN skpd c ON a.id_skpd = c.id_sipd
-        WHERE a.id_skpd = $id ;
+        WHERE a.id_skpd = $id AND d.berkas > 0 ;
     ";
 
-    $result = mysqli_query($koneksi, $sql);
-    $data = [];
+  $result = mysqli_query($koneksi, $sql);
+  $data = [];
 
-    // base URL untuk akses file dari browser
-    $baseUrl = "http://localhost/proses/berkas/uploads/";
+  // base URL untuk akses file dari browser
+  $baseUrl = "http://localhost/proses/berkas/uploads/";
 
-    while ($row = mysqli_fetch_assoc($result)) {
-        // cek apakah file berkas ada di folder uploads
-        $finalFile = __DIR__ . "/uploads/" . $row['berkas'];
-        $row['file_exists'] = (!empty($row['berkas']) && file_exists($finalFile));
-        $row['file_url']    = (!empty($row['berkas'])) ? $baseUrl . $row['berkas'] : null;
+  while ($row = mysqli_fetch_assoc($result)) {
+    // cek apakah file berkas ada di folder uploads
+    $finalFile = __DIR__ . "/uploads/" . $row['berkas'];
+    $row['file_exists'] = (!empty($row['berkas']) && file_exists($finalFile));
+    $row['file_url']    = (!empty($row['berkas'])) ? $baseUrl . $row['berkas'] : null;
 
-        $data[] = $row;
-    }
+    $data[] = $row;
+  }
 
-    mysqli_close($koneksi);
-    header('Content-Type: application/json');
-    echo json_encode([
-        "data" => $data
-    ]);
+  mysqli_close($koneksi);
+  header('Content-Type: application/json');
+  echo json_encode([
+    "data" => $data
+  ]);
 }
 
 
@@ -207,4 +207,22 @@ if ($_GET["action"] === "uploadberkas") {
     flush();
   }
   fclose($fp);
+}
+
+if ($_GET["action"] === "updatestatus") {
+  header('Content-Type: application/json');
+  $status = $_POST['status'] ?? '';
+  
+  if (in_array($status, ['TERIMA', 'TOLAK'])) {
+    echo json_encode(["success" => true, "message" => "Berkas diterima"]);
+  } else {
+    echo json_encode(["error" => false, "message" => "Berkas tidak valid"]);
+  }
+
+  mysqli_close($koneksi);
+  // header('Content-Type: application/json');
+  // echo json_encode([
+  //   "data" => $data
+  //   // "potongan" => $result1
+  // ]);
 }

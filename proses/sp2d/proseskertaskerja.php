@@ -366,10 +366,10 @@ if ($_GET["action"] === "cetakpenguji") {
     $pdf->Image('../../palu1.jpg', 30, 30, 27, 30, 'JPG', '', '', true, 80, '', false, false, '', false, false, false);
     $pdf->Cell(800, 1, "PEMERINTAH KOTA PALU", 0, 1, 'C');
     $pdf->Cell(800, 1, "DAFTAR PENGUJI", 0, 1, 'C');
-    $pdf->Cell(800, 1, "Nomor : $id/MANDIRI/BPKAD/$tahun : Tanggal : $tanggalpenguji  ", 0, 1, 'C');
+    $pdf->Cell(800, 1, "Nomor : $id/BTN/BPKAD/$tahun : Tanggal : $tanggalpenguji  ", 0, 1, 'C');
     $pdf->Ln(2);
-    $html = '<div style="text-align:left;line-height:7px"><h3>Bank : Bank Mandiri</h3>
-          <h3>No Rekening : 151-000-000-009-8</h3>
+    $html = '<div style="text-align:left;line-height:7px"><h3>Bank : Bank BTN</h3>
+          <h3>No Rekening : 2501308886665</h3>
           </div>';
     $pdf->writeHTMLCell(0, 0, '', '', $html, 0, 1, 0, true, '', true);
     $pdf->SetCellPadding(-1);

@@ -1,8 +1,8 @@
 <?php
 
-$servername = "localhost";
+$servername = "103.160.152.124";
 $username = "root";
-$password = "";
+$password = "Penataus4ha4n_2026#!";
 $database = "spm";
 
 

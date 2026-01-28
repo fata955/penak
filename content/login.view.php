@@ -568,7 +568,7 @@ include 'component/footer.view.php';
         $("#form_inputsubmenu").on("submit", function(e) {
             e.preventDefault();
             $.ajax({
-                url: 'proses/login/page.php?action=loginData',
+                url: '/proses/login/page.php?action=loginData',
                 type: 'POST',
                 data: $(this).serialize(),
                 success: function(response) {

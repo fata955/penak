@@ -30,7 +30,7 @@ if ($_GET["action"] === "fetchData") {
   $countResult = mysqli_query($koneksi, $countSql);
   $totalItems = mysqli_fetch_assoc($countResult)['total'];
 
-  $sql = "SELECT a.nomor_spm,a.keterangan_spm,a.nilai_spm,a.jenis,b.status_berkas,b.id_sp2d,c.id_penguji as nomorpenguji,
+  $sql = "SELECT a.nomor_spm,a.keterangan_spm,a.nilai_spm,a.jenis,b.status_berkas,b.id_sp2d,c.id_penguji,a.tanggal_spm as nomorpenguji,
          (SELECT COALESCE(SUM(d.nilai),0) FROM potongan d WHERE d.id_spm=a.id_spm) as potongan
          FROM tspm a, tspmsub b, tb_control c
          WHERE $where

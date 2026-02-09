@@ -81,7 +81,7 @@ if ($allUploaded) {
         $response['message'] = "File berhasil digabungkan, tapi gagal update database: " . mysqli_error($koneksi);
     }
 
-    $response['fileUrl'] = "http://localhost/proses/berkas/uploads/" . $newName;
+    $response['fileUrl'] = __DIR__ . "/proses/berkas/uploads/" . $newName;
     $response['viewMode'] = "view"; // frontend bisa tampilkan tombol View Berkas
 } else {
     $response['status'] = "partial";

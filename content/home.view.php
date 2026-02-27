@@ -43,7 +43,7 @@ $page = "beranda";
     <div class="main-content app-content">
         <div class="container-fluid">
             <!-- Page Header -->
-            <div class="d-md-flex d-block align-items-center justify-content-between my-4 page-header-breadcrumb">
+            <div class="d-md-flex d-block align-items-center justify-content-between my-4 page-header-breadcrumb bg-primary-gradient">
                 <div>
                     <h4 class="mb-0">Hi, Selamat Datangs <?= $_SESSION['nama'] ?></h4>
                     <p class="mb-0 text-muted">Mengelola keuangan tidak hanya tentang menghitung uang, tetapi juga tentang membangun kebiasaan dan karakter yang mendukung keberhasilan finansial.</p>

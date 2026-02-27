@@ -208,9 +208,7 @@ include 'component/footer.view.php';
                                             <!-- <div class="badge bg-pink">New</div> -->
                                             <!-- <a href="wish-list.html"><i class="mdi mdi-heart-outline ms-auto wishlist"></i></a> -->
                                         </div>
-                                        <a href="spm/1"><img class="w-100 rounded-3" src=""
-                                                alt="product-image">
-                                        </a>
+             
                                         <!-- <a href="product-cart.html" class="adtocart"> <i class="las la-shopping-cart "></i>
                                         </a> -->
                                     </div>
@@ -264,9 +262,7 @@ include 'component/footer.view.php';
                                             <!-- <div class="badge bg-pink">New</div> -->
                                             <!-- <a href="wish-list.html"><i class="mdi mdi-heart-outline ms-auto wishlist"></i></a> -->
                                         </div>
-                                        <a href="spm/1"><img class="w-100 rounded-3" src=""
-                                                alt="product-image">
-                                        </a>
+                                 
                                         <!-- <a href="product-cart.html" class="adtocart"> <i class="las la-shopping-cart "></i>
                                         </a> -->
                                     </div>

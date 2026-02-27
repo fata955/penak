@@ -6,7 +6,7 @@ include 'component/pengaturantampilan.view.php';
 ?>
 
 <!-- Start Switcher -->
-<div class="offcanvas offcanvas-end" tabindex="-1" id="switcher-canvas" aria-labelledby="offcanvasRightLabel">
+<!-- <div class="offcanvas offcanvas-end" tabindex="-1" id="switcher-canvas" aria-labelledby="offcanvasRightLabel">
     <div class="offcanvas-header border-bottom">
         <h5 class="offcanvas-title text-default" id="offcanvasRightLabel">Switcher</h5>
         <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
@@ -445,12 +445,89 @@ include 'component/pengaturantampilan.view.php';
             </div>
         </div>
     </div>
-</div>
+</div> -->
 <!-- End Switcher -->
+<!-- <!DOCTYPE html>
+<html lang="en">
 
-<div class="container-fluid custom-page">
+<head>
+    <meta charset="UTF-8">
+    <title>Login Form</title> -->
+<!-- <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script> -->
+<link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+<style>
+    /* Background gradient dengan banyak warna */
+    .q {
+        background: linear-gradient(-45deg, #ff6b6b, #feca57, #48dbfb, #1dd1a1, #5f27cd, #ee5253);
+        background-size: 600% 600%;
+        animation: gradientBG 20s ease infinite;
+    }
+
+    @keyframes gradientBG {
+        0% {
+            background-position: 0% 50%;
+        }
+
+        50% {
+            background-position: 100% 50%;
+        }
+
+        100% {
+            background-position: 0% 50%;
+        }
+    }
+</style>
+
+    <div class="q flex items-center justify-center h-screen">
+        <div class="w-full max-w-sm bg-white bg-opacity-90 rounded-lg shadow-lg p-6">
+            <h2 class="text-2xl font-bold mb-4 text-center text-gray-800">Login Penak</h2>
+            <form method="POST" id="form_inputsubmenu">
+                <div class="mb-4">
+                    <label class="block text-gray-700">Username</label>
+                    <input type="text" name="username" id="username" class="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring focus:border-blue-300" required>
+                </div>
+                <div class="mb-4">
+                    <label class="block text-gray-700">Password</label>
+                    <input type="password" name="password" id="password" class="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring focus:border-blue-300" required>
+                </div>
+                <button type="submit" class="w-full bg-blue-500 text-white py-2 rounded-lg hover:bg-blue-600">Login</button>
+            </form>
+            <div id="message" class="mt-4 text-center text-red-500"></div>
+        </div>
+    </div>
+
+
+    <!-- <script>
+        $(document).ready(function() {
+            $("#loginForm").on("submit", function(e) {
+                e.preventDefault();
+                $.ajax({
+                    url: "login.php",
+                    type: "POST",
+                    data: $(this).serialize(),
+                    success: function(response) {
+                        if (response === "success") {
+                            $("#message").removeClass("text-red-500").addClass("text-green-500").text("Login berhasil!");
+                            window.location.href = "dashboard.php";
+                        } else {
+                            $("#message").text("Username atau password salah.");
+                        }
+                    }
+                });
+            });
+        });
+    </script> -->
+
+</body>
+
+
+
+
+
+
+<!-- <div class="container-fluid custom-page">
     <div class="row bg-white">
-        <!-- The image half -->
+
         <div class="col-md-6 col-lg-6 col-xl-7 d-none d-md-flex bg-primary-transparent-3">
             <div class="row w-100 mx-auto text-center">
                 <div class="col-md-12 col-lg-12 col-xl-12 my-auto mx-auto w-100">
@@ -459,10 +536,10 @@ include 'component/pengaturantampilan.view.php';
                 </div>
             </div>
         </div>
-        <!-- The content half -->
+        
         <div class="col-md-6 col-lg-6 col-xl-5 bg-white py-4">
             <div class="login d-flex align-items-center py-2">
-                <!-- Demo content-->
+                
                 <div class="container p-0">
                     <div class="row">
                         <div class="col-md-10 col-lg-10 col-xl-9 mx-auto">
@@ -500,11 +577,11 @@ include 'component/pengaturantampilan.view.php';
                             </div>
                         </div>
                     </div>
-                </div><!-- End -->
+                </div>
             </div>
-        </div><!-- End -->
+        </div>
     </div>
-</div>
+</div> -->
 
 <div id="result"></div>
 
@@ -522,7 +599,7 @@ include 'component/footer.view.php';
         let table = new DataTable("#mytablesubmenu");
 
         // function to fetch data from database
-        function fetchData() {
+        // function fetchData() {
             $.ajax({
                 url: "proses/menu/executesubmenu.php?action=fetchData",
                 type: "POST",
@@ -552,7 +629,7 @@ include 'component/footer.view.php';
                     });
                 }
             });
-        }
+        // }
 
         function kosong() {
             $("#username").val('');
@@ -580,87 +657,6 @@ include 'component/footer.view.php';
                 }
             });
 
-        });
-
-        // function to edit data
-        $("#mytablesubmenu").on("click", ".editBtn", function() {
-            var id = $(this).val();
-            // console.log(id);
-            $.ajax({
-                url: "proses/menu/executesubmenu.php?action=fetchSingle",
-                type: "POST",
-                dataType: "json",
-                data: {
-                    id: id
-                },
-                success: function(response) {
-                    var data = response.data;
-
-                    $(" #modaldemo8edit #editForm #id").val(data.id);
-                    $("#modaldemo8edit #editForm select[name='menujudul']").val(data.id_menu);
-                    $("#modaldemo8edit #editForm input[name='submenujudul']").val(data.judul);
-                    $("#modaldemo8edit #editForm input[name='link']").val(data.link);
-                    $("#modaldemo8edit #editForm input[name='urutan']").val(data.urutan);
-
-                    $("#modaldemo8edit").modal("show");
-
-                }
-            });
-        });
-
-        // function to update data in database
-        $("#editForm").on("submit", function(e) {
-            // $("#editBtn").attr("disabled");
-            e.preventDefault();
-            $.ajax({
-                url: "proses/menu/executesubmenu.php?action=updateData",
-                type: "POST",
-                data: new FormData(this),
-                contentType: false,
-                cache: false,
-                processData: false,
-                success: function(response) {
-                    var response = JSON.parse(response);
-                    if (response.statusCode == 200) {
-                        alert('Data Sukses terupdate')
-                        // Swal.fire("!", "Data Sukses Terupdate", "success");
-                        fetchData();
-                        kosong();
-                        // $("#offcanvasEditUser").modal("hide");
-                    } else if (response.statusCode == 500) {
-                        alert('Failed to update data');
-                        kosong();
-                    } else if (response.statusCode == 400) {
-                        alert('isi Yang Kosong');
-                    }
-                }
-            });
-        });
-
-        // function to delete data
-        $("#mytablesubmenu").on("click", ".deleteBtn", function() {
-            if (confirm("Apakah yakin Menghapus Data Ini?")) {
-                var id = $(this).val();
-                //   var delete_image = $(this).closest("td").find(".delete_image").val();
-                $.ajax({
-                    url: "proses/menu/executesubmenu.php?action=deleteData",
-                    type: "POST",
-                    dataType: "json",
-                    data: {
-                        id
-                        //   delete_image
-                    },
-                    success: function(response) {
-                        if (response.statusCode == 200) {
-                            alert('Data Sukses Terhapus')
-                            fetchData();
-
-                        } else if (response.statusCode == 500) {
-                            alert('Penghapusan data error, Jaringan Anda');
-                        }
-                    }
-                });
-            }
         });
     });
 </script>

@@ -8,10 +8,10 @@ require_once __DIR__ . '/lib/dbh.inc.php';
 
 // Deteksi BASE_URL otomatis
 $script_name = dirname($_SERVER['SCRIPT_NAME']);
-if ($script_name === "/penak" || $script_name === "\\") {
-    $project_location = "/penak";
+if ($script_name === "/" || $script_name === "\\") {
+    $project_location = "/";
 } else {
-    $project_location = rtrim($script_name, "/penak") . "/penak";
+    $project_location = rtrim($script_name, "/") . "/";
 }
 $me = $project_location;
 

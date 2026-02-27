@@ -82,8 +82,9 @@ if ($_GET["action"] === "listspm") {
     $result = mysqli_query($koneksi, $sql);
     $data = [];
 
-    // base URL untuk akses file dari browser
-    $baseUrl = __DIR__ . "/proses/berkas/uploads/";
+    // base URL untuk akses file dari 
+      $baseUrl = "http://localhost/proses/berkas/uploads/";
+    // $baseUrl = __DIR__ . "/proses/berkas/uploads/";
 
     while ($row = mysqli_fetch_assoc($result)) {
         // cek apakah file berkas ada di folder uploads

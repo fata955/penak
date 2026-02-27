@@ -55,6 +55,19 @@
     <script src="assets/js/show-password.js"></script>
     <script src="assets/js/authentication-main.js"></script>
     <link rel="stylesheet" href="assets/libs/prismjs/themes/prism-coy.min.css">
+     <style>
+    /* Background gradient dengan banyak warna */
+    body {
+      background: linear-gradient(-45deg, #ff6b6b, #feca57, #48dbfb, #1dd1a1, #5f27cd, #ee5253);
+      background-size: 600% 600%;
+      animation: gradientBG 20s ease infinite;
+    }
+    @keyframes gradientBG {
+      0% {background-position: 0% 50%;}
+      50% {background-position: 100% 50%;}
+      100% {background-position: 0% 50%;}
+    }
+  </style>
     <!-- <link rel="stylesheet" href="../assets/ckeditor/content.css"> -->
        
     

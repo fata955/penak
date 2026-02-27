@@ -410,20 +410,15 @@ include 'component/footer.view.php';
             });
         });
         $(document).on("click", ".tampilkan3", function(e) {
-
             e.preventDefault();
 
-            // ambil nama file dari atribut data
-            let filename = $(this).data("file");
-            // base URL server (ganti sesuai IP/port kamu)
-            let baseUrl = "http://103.160.152.124:81/proses/berkas/uploads/";
+            let fileUrl = $(this).attr("href");
 
-            if (filename) {
-                // buka file PDF di tab baru
-                let fileUrl = baseUrl + filename;
+            if (fileUrl) {
+                // View Berkas → buka file PDF di tab baru
                 window.open(fileUrl, "_blank");
             } else {
-                // kalau tidak ada file, tampilkan modal insert
+                // Upload Berkas → jalankan modal insert
                 $("#exampleModalXl").modal("hide");
                 $("#modaldemo8insert").modal("show");
 
@@ -437,8 +432,6 @@ include 'component/footer.view.php';
                 $('#namaopd').text(namaopd);
                 $('#nilaispm').text(nilaispm);
             }
-
-
         });
 
 

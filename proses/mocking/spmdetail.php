@@ -1,5 +1,5 @@
 <?php
-include '../../lib/dbh.inc.php';
+require_once __DIR__ . '/lib/dbh.inc.php';
 session_start();
 $user = $_SESSION['username'];
 

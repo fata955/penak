@@ -455,7 +455,7 @@ include 'component/pengaturantampilan.view.php';
     <title>Login Form</title> -->
 <!-- <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script> -->
 <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
-<style>
+<!-- <style>
     /* Background gradient dengan banyak warna */
     .q {
         background: linear-gradient(-45deg, #ff6b6b, #feca57, #48dbfb, #1dd1a1, #5f27cd, #ee5253);
@@ -476,10 +476,10 @@ include 'component/pengaturantampilan.view.php';
             background-position: 0% 50%;
         }
     }
-</style>
+</style> -->
 
-    <div class="q flex items-center justify-center h-screen">
-        <div class="w-full max-w-sm bg-white bg-opacity-90 rounded-lg shadow-lg p-6">
+    <div class=" flex items-center justify-center h-screen">
+        <div class="q w-full max-w-sm bg-white bg-opacity-90 rounded-lg shadow-lg p-6">
             <h2 class="text-2xl font-bold mb-4 text-center text-gray-800">Login Penak</h2>
             <form method="POST" id="form_inputsubmenu">
                 <div class="mb-4">

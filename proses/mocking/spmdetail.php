@@ -129,53 +129,79 @@ if ($_GET["action"] === "insertData") {
                     "sssssssssssssssssss"
                 );
 
-                // Insert ke tabel tspmsub
-                insertData(
-                    $koneksi,
-                    "INSERT INTO tspmsub (id_spm,status,id_sumber,id_user,id_dana,statuspenguji) VALUES (?,?,?,?,?,?)",
-                    [$gabung, "0", "0", "0", "0", "1"],
-                    "ssssss"
-                );
+              mysqli_begin_transaction($koneksi);
 
-                // Insert detail belanja
-                foreach ($detail as $row) {
-                    insertData(
-                        $koneksi,
-                        "INSERT INTO belanja (norekening,uraian,nilai,id_spm) VALUES (?,?,?,?)",
-                        [$row["kode_rekening"], $row["uraian"], $row["jumlah"], $gabung],
-                        "ssss"
-                    );
-                }
+try {
+    // Insert ke tspm
+    insertData($koneksi,
+        "INSERT INTO tspm 
+        (id_spm,nomor_spm,tanggal_spm,id_skpd,keterangan_spm,nilai_spm,
+         no_rek_pihak_ketiga,nama_rek_pihak_ketiga,bank_pihak_ketiga,
+         npwp_pihak_ketiga,nama_pa_kpa,nip_pa_kpa,jabatan_pa_kpa,
+         nomor_spp,tanggal_spp,jenis,nama_bp_bpp,nip_bp_bpp,jabatan_bp_bpp)
+        VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)",
+        [$gabung,$nomor_spm,$tanggal_spm,$id_skpd,$keterangan_spm,$nilai_spm,
+         $no_rek_pihak_ketiga,$nama_rek_pihak_ketiga,$bank_pihak_ketiga,
+         $npwp_pihak_ketiga,$nama_pa_kpa,$nip_pa_kpa,$jabatan_pa_kpa,
+         $nomor_spp,$tanggal_spp,$idl,"0","0","0"],
+        "sssssssssssssssssss"
+    );
 
-                // Insert pajak potongan
-                if ($pajak_potongan) {
-                    foreach ($pajak_potongan as $row1) {
-                        $billing = str_replace("'", "", $row1["id_billing"]);
-                        insertData(
-                            $koneksi,
-                            "INSERT INTO potongan (uraian,nilai,id_spm,billing) VALUES (?,?,?,?)",
-                            [$row1["nama_pajak_potongan"], $row1["nilai_spp_pajak_potongan"], $gabung, $billing],
-                            "ssss"
-                        );
-                    }
-                }
+    // Insert ke tspmsub
+    insertData($koneksi,
+        "INSERT INTO tspmsub (id_spm,status,id_sumber,id_user,id_dana,statuspenguji) VALUES (?,?,?,?,?,?)",
+        [$gabung,0,0,0,0,1],
+        "siiiii"
+    );
 
-                // Insert dasar pembayaran (SPD)
-                if ($dasarpembayaran) {
-                    insertData(
-                        $koneksi,
-                        "INSERT INTO spd (nomor_spd,tanggal_spd,total_spd,id_spm) VALUES (?,?,?,?)",
-                        [$dasarpembayaran["nomor_spd"], $dasarpembayaran["tanggal_spd"], $dasarpembayaran["total_spd"], $gabung],
-                        "ssss"
-                    );
-                }
+    // Insert detail belanja
+    foreach ($detail as $row) {
+        insertData($koneksi,
+            "INSERT INTO belanja (norekening,uraian,nilai,id_spm) VALUES (?,?,?,?)",
+            [$row["kode_rekening"], $row["uraian"], $row["jumlah"], $gabung],
+            "ssds"
+        );
+    }
 
-                // Output JSON
-                header('Content-Type: application/json');
-                echo json_encode([
-                    "statusCode" => 200,
-                    "message" => "Data inserted successfully 😀"
-                ]);
+    // Insert pajak potongan
+    if ($pajak_potongan) {
+        foreach ($pajak_potongan as $row1) {
+            $billing = str_replace("'", "", $row1["id_billing"]);
+            insertData($koneksi,
+                "INSERT INTO potongan (uraian,nilai,id_spm,billing) VALUES (?,?,?,?)",
+                [$row1["nama_pajak_potongan"], $row1["nilai_spp_pajak_potongan"], $gabung, $billing],
+                "ssds"
+            );
+        }
+    }
+
+    // Insert dasar pembayaran (SPD)
+    if ($dasarpembayaran) {
+        insertData($koneksi,
+            "INSERT INTO spd (nomor_spd,tanggal_spd,total_spd,id_spm) VALUES (?,?,?,?)",
+            [$dasarpembayaran["nomor_spd"], $dasarpembayaran["tanggal_spd"], $dasarpembayaran["total_spd"], $gabung],
+            "ssds"
+        );
+    }
+
+    // Commit jika semua berhasil
+    mysqli_commit($koneksi);
+
+    header('Content-Type: application/json');
+    echo json_encode([
+        "statusCode" => 200,
+        "message" => "Data inserted successfully 😀"
+    ]);
+
+} catch (Exception $e) {
+    // Rollback jika ada error
+    mysqli_rollback($koneksi);
+    echo json_encode([
+        "statusCode" => 500,
+        "message" => "Insert failed: " . $e->getMessage()
+    ]);
+}
+
             } elseif ($idl == "GU") {
                 $jenis = $dt["jenis"];
                 $tahun = $dt["gu"]["tahun"];
